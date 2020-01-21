@@ -12,6 +12,7 @@ app_instance.config.from_object(Config)
 db = SQLAlchemy(app=app_instance)
 migrate = Migrate(app=app_instance, db=db)
 login = LoginManager(app=app_instance)
+login.login_view = 'login' # for login view name
 
 # From our app package import routes
 from app import routes, models
