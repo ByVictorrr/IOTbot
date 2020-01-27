@@ -7,6 +7,7 @@ from werkzeug.urls import url_parse
 from app import db
 
 
+import pdb
 
 
 @app_instance.route('/')
@@ -36,10 +37,12 @@ def logout():
 
 @app_instance.route('/register', methods=['POST', 'GET'])
 def register():
+    breakpoint()
     if current_user.is_authenticated:
         return redirect(url_for('login'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        breakpoint()
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
