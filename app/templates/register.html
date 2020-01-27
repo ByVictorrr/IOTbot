@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Register</h1>
 <form action="" method="POST" novalidate>
-    <p>{{ form.hidden_tag() }}</p>
+    {{ form.hidden_tag() }}
     <p>
         {{ form.username.label }}
         {{ form.username() }}

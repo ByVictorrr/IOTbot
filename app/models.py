@@ -1,7 +1,7 @@
 from datetime import datetime
 from app import db, login
 from werkzeug import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin # login function the manager expects the model to have
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,16 +19,7 @@ class User(db.Model, UserMixin):
         return "<User {}".format(self.username)
 
 
-
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    def __repr__(self):
-        return "<Post {}".format(self.body)
-
-
+# linking the login to load a user
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
