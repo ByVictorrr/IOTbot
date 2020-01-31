@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+<!-- Controller fori the robot-->
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+    
+{% endblock js %}
+{% block content %}
+   <script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+
+            var socket = io.connect("https://localhost:5000");
+            var username;
+            var bot_sid;
+
+            /* Descriptions: On connect the server will return a the username(string)*/
+            socket.on('connect', function(user){
+                socket.emit('message', "user connected");
+                username=user;
+            });
+            /*Description: To get the sid of the bot connected*/
+            $("#connect_bot").on('click',function(){
+                socket.emit('connect bot', username);
+            });
+
+            /*Description: Response to connect_bot button gives the sid of the bot*/
+            socket.on('connect bot', function(sid){
+                sbot_sid = sid;
+            });
+
+            /*Description: sends messages to robot*/
+            $("#send_msg").on('click', function(){
+                socket.emit('message', "hey give me your lunch money", room=bot_sid)
+            });
+            
+
+
+        });
+            
+    </script>
+    <form>
+        <button id="connect_bot">connect bot</button>
+        <input type="text" id="msg">
+        <button id="send_msg">sent message to bot</button>
+
+        <ul id="messages"></ul>
+    </form>
+
+{% endblock content %}

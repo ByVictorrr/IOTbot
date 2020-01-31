@@ -12,7 +12,7 @@ import pdb
 
 @app_instance.route('/')
 def home():
-    return render_template('home.html', title=home)
+    return render_template('home.html', title='home')
 
 @app_instance.route('/login',methods=['POST', 'GET'])
 def login():
@@ -20,7 +20,6 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
-        breakpoint()
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash("invalid username or password")
@@ -37,6 +36,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
 @app_instance.route('/register', methods=['POST', 'GET'])
 def register():
     if current_user.is_authenticated:
@@ -52,6 +52,9 @@ def register():
     return render_template('register.html',title='Register', form=form)
 
 
+@app_instance.route("/robot", methods=["POST", "GET"])
+def client():
+    return render_template("client.html")
 
 
 
