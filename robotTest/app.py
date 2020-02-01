@@ -1,18 +1,14 @@
+from socketio import Client
 
-from socketIO_client import SocketIO
-
-sio=SocketIO('localhost',8000)
+sio=Client()
+sio.connect('http://localhost:5000')
 
 username = "victor"
 
-sio.emit("auth",username)
-
-@sio.on_connect()
-def on_connect():
+@sio.on('connect')
+def connect():
 	breakpoint()
-	print("HI")
-	sio.emit("auth",username)
-
+	sio.emit("auth", data=username)
 @sio.on('message')
 def on_message(msg):
     print(msg)
