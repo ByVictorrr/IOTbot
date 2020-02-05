@@ -14,14 +14,24 @@ def connect():
 
 @sio.on("message")
 def handle_message(msg):
-    breakpoint()
+    pass
+    #breakpoint()
 
 
 #For robot interaction
+# data = "{username, sid}"
 @sio.on("auth")
-def set_up_bot(sid, data):
-    add_to_lookup_bot(sid,data)
-    breakpoint()
+def set_up_bot(data):
+    #breakpoint()
+    add_to_lookup_bot(data['sid'],data['username'])
+
+# this get the sid sent back to client
+@sio.on("connect bot")
+def connect_bot(user):
+    #breakpoint()
+    sio.emit("connect bot", lookup_bot[user])
+
+
 
 
 """
@@ -36,5 +46,5 @@ def add_to_lookup_bot(sid, username):
         emit("message","No valid username found" ,room=sid)
     else:
         # add to the dictonary(object = User: "sid")
-        lookup_bot[user.username.data()] = sid
+        lookup_bot[user.username] = sid
 

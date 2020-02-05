@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 <!-- Controller fori the robot-->
 {% block js %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
     
-{% endblock js %}
-{% block content %}
    <script type="text/javascript" charset="utf-8">
         $(document).ready(function(){
 
-            var socket = io.connect("https://localhost:5000");
-            var username;
+            var socket = io.connect("http://localhost:5000");
+            var username = '{{ user }}';
             var bot_sid;
 
             /* Descriptions: On connect the server will return a the username(string)*/
-            socket.on('connect', function(user){
-                socket.emit('message', "user connected");
-                username=user;
+            socket.on('connect', function(){
+                //socket.emit('message', "user connected");
+                console.log("connected");
             });
             /*Description: To get the sid of the bot connected*/
             $("#connect_bot").on('click',function(){
@@ -30,13 +30,16 @@
 
             /*Description: sends messages to robot*/
             $("#send_msg").on('click', function(){
-                socket.emit('message', "hey give me your lunch money", room=bot_sid)
+                socket.in(sbot_sid).emit('message', "hey give me your lunch money")
             });
             
 
         });
             
     </script>
+
+{% endblock js %}
+{% block content %}
     <form>
         <button id="connect_bot">connect bot</button>
         <input type="text" id="msg">

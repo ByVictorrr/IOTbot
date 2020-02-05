@@ -24,15 +24,20 @@
                           <div class="navbar-nav mr-auto">
                             <a class="nav-item nav-link" href="/">Home</a>
                             <a class="nav-item nav-link" href="/about">About</a>
+
+                            {% if not current_user.is_anonymous %}
+                            <a class="nav-item nav-link" href="/robot">Controll Bot</a>
+                            {% endif %}
                           </div>
                           <!-- Navbar Right Side -->
                           <div class="navbar-nav">
                             {% if current_user.is_anonymous %}
                             <a class="nav-item nav-link" href="/login">Login</a>
+                            <a class="nav-item nav-link" href="/register">Register</a>
                             {% else %}
                             <a class="nav-item nav-link" href="/logout">Logout</a>
                             {% endif %}
-                            <a class="nav-item nav-link" href="/register">Register</a>
+
                           </div>
                         </div>
                       </div>

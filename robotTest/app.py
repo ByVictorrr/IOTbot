@@ -5,13 +5,15 @@ sio.connect('http://localhost:5000')
 
 username = "victor"
 
-@sio.on('connect')
+@sio.event
 def connect():
 	breakpoint()
-	sio.emit("auth", data=username)
+	sio.emit("auth", data={'username': username, 'sid': sio.sid})
+
 @sio.on('message')
 def on_message(msg):
-    print(msg)
+	breakpoint()
+	print(msg)
 
 
 

@@ -54,7 +54,6 @@ def register():
 
 @app_instance.route("/robot", methods=["POST", "GET"])
 def client():
-    return render_template("client.html")
-
+    return render_template("client.html", user=User.query.get(current_user.get_id()).username)
 
 
