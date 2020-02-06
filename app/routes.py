@@ -43,8 +43,7 @@ def register():
         return redirect(url_for('login'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
         flash("Congratulations, you are now a registered user")
@@ -54,6 +53,7 @@ def register():
 
 @app_instance.route("/robot", methods=["POST", "GET"])
 def client():
-    return render_template("client.html", user=User.query.get(current_user.get_id()).username)
+    user =User.query.get(current_user.get_id())
+    return render_template("client.html", username=user.username, password=user.password)
 
 

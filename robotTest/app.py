@@ -4,7 +4,7 @@ sio=Client()
 sio.connect('http://localhost:5000')
 
 username = "victor"
-password = "victor1"
+password = "calpoly"
 
 @sio.event
 def connect():

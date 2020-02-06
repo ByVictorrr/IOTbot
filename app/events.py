@@ -9,7 +9,7 @@ lookup_room = dict()
 @sio.on("message")
 def handle_message(msg):
     breakpoint()
-    sio.emit('message',msg[0],room=lookup_room[msg[1]])
+    sio.emit('message',msg[0],room=lookup_room[(msg[1], msg[2])])
 
 # this get the sid sent back to client
 @sio.on("connect bot")
@@ -18,7 +18,6 @@ def connect_bot(user):
 
 
 #For robot interaction
-# data = "{username, sid}"
 @sio.on("setup room")
 def set_up_bot(data):
     add_to_lookup_room(data['sid'],data['username'])
@@ -35,6 +34,6 @@ def add_to_lookup_room(sid, username):
     if user is None:
         emit("message","No valid username found" ,room=sid)
     else:
-        lookup_room[user.username] = sid 
+        lookup_room[(user.username,user.password)] = sid 
         join_room(sid)
 

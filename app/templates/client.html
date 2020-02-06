@@ -10,7 +10,8 @@
         $(document).ready(function(){
 
             var socket = io.connect("http://localhost:5000");
-            var username = '{{ user }}';
+            var username = '{{ username }}';
+            var password = '{{ password }}';
             var bot_sid;
 
             /* Descriptions: On connect the server will return a the username(string)*/
@@ -31,8 +32,12 @@
 
             /*Description: sends messages to robot*/
             $("#send_msg").on('click', function(){
-                socket.emit('message', ["hey give me your lunch money", username])
+                socket.emit('message', [$("#msg").val(), username, password])
             });
+            socket.on('message', function(msg){
+                $("#messages").append("<p>" + msg + '</p>')
+            });
+            
             
 
         });
