@@ -18,19 +18,20 @@
                 //socket.emit('message', "user connected");
                 console.log("connected");
             });
-            /*Description: To get the sid of the bot connected*/
+            /*Description: To get the sid of the bot connected
             $("#connect_bot").on('click',function(){
                 socket.emit('connect bot', username);
             });
 
-            /*Description: Response to connect_bot button gives the sid of the bot*/
+            Description: Response to connect_bot button gives the sid of the bot
             socket.on('connect bot', function(sid){
                 sbot_sid = sid;
             });
+            */
 
             /*Description: sends messages to robot*/
             $("#send_msg").on('click', function(){
-                socket.in(sbot_sid).emit('message', "hey give me your lunch money")
+                socket.emit('message', ["hey give me your lunch money", username])
             });
             
 
