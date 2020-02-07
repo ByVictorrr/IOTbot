@@ -8,8 +8,9 @@ password = "calpoly"
 
 @sio.event
 def connect():
-	breakpoint()
-	sio.emit("setup room", data={'username': username, 'sid': sio.sid})
+	#breakpoint()
+	#sio.emit("setup room", data={'username': username, 'password':password,'sid': sio.sid})
+	sio.emit("setup room", data={'username': username, 'password':password})
 
 
 @sio.on('message')
