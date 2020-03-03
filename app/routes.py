@@ -21,7 +21,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.password != form.password:
+        if user is None or not user.check_password(form.password.data):
             flash("invalid username or password")
             return redirect(url_for('login'))
         login_user(user, remember=form.remember.data)
@@ -43,7 +43,8 @@ def register():
         return redirect(url_for('login'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash("Congratulations, you are now a registered user")
@@ -54,6 +55,6 @@ def register():
 @app_instance.route("/robot", methods=["POST", "GET"])
 def client():
     user =User.query.get(current_user.get_id())
-    return render_template("client.html", username=user.username, password=user.password)
+    return render_template("client.html", username=user.username, password_hash=user.password_hash)
 
 

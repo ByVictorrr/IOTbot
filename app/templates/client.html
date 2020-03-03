@@ -10,28 +10,28 @@
         $(document).ready(function(){
             var socket = io.connect("http://localhost:5000");
             var username = '{{ username }}';
-            var password = '{{ password }}';
+            var password_hash = '{{ password_hash }}';
             $(".slider").prop("disabled",true);
 
             /* Descriptions: On connect the server will return a the username(string)*/
             socket.on('connect', function(){
-                //socket.emit('message', "user connected");
                 console.log("connected");
             });
-            /*Description: checks to see if bot is connected*/
-            $("#connect_bot").on('click',function(){
-                socket.emit('join',password);
+            socket.on("join room", function(){
+                socket.emit('connect client',{'username':username, 'password_hash': password_hash});
                 return false;
             });
 
             /*Description: sends messages to robot*/
             $("#send_msg").on('click', ()=>{
-                socket.emit('message', [$("#msg").val(),password]);
+                socket.emit('client message', {'message':$("#msg").val(), 'username': username,'password_hash': password_hash});
                 return false;
             });
+
             socket.on('message', function(msg){
                 $(".scroller").append("<p>"+msg+"</p>");
             });
+
                         
 
         });
@@ -50,9 +50,8 @@
         }
     </style>
     <form>
-        <button id="connect_bot">connect bot</button>
         <input type="text" id="msg">
-        <button id="send_msg">sent message to bot</button>
+        <button id="send_msg">send message to bot</button>
         <div class="scroller" >
         </div>
 
