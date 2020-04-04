@@ -8,7 +8,7 @@
     
    <script type="text/javascript" charset="utf-8">
         $(document).ready(function(){
-            var socket = io.connect("http://localhost:5000");
+            var socket = io.connect("http://192.168.1.252:80");
             var username = '{{ username }}';
             var password_hash = '{{ password_hash }}';
             $(".slider").prop("disabled",true);

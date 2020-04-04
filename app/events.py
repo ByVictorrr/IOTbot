@@ -7,6 +7,7 @@ lookup_room = dict()
 """ When a client connects it sends back a message to join the room """
 @sio.on("connect")
 def connect():
+    breakpoint()
     sio.emit("join room")
 
 """ Robot triggers this to send a message to the room """
@@ -58,6 +59,7 @@ def connect_bot(creds):
 
 @sio.on("connect bot")
 def connect_bot(creds):
+    breakpoint()
     username=creds['username']
     password=creds['password']
     user = User.query.filter_by(username=username).first()

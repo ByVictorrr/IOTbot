@@ -1,7 +1,7 @@
 from socketio import Client
 
 sio=Client()
-sio.connect('http://localhost:5000')
+sio.connect('http://192.168.1.93:5000')
 
 username = "byvictorrr"
 password = "calpoly"
@@ -18,7 +18,7 @@ def on_message(msg):
 	print(msg)
 
 
-while True:	
+while True:
     msg = input("input message: ")
     sio.emit("robot message", {"message":msg, "username": username})
 
