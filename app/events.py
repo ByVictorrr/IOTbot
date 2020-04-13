@@ -1,7 +1,7 @@
 from app import sio
 from app.models import User
 import pdb
-from flask_socketio import join_room, rooms
+from flask_socketio import join_room, rooms, leave_room
 from flask import request
 
 # multiple sid may point to the same room name 
@@ -16,14 +16,18 @@ def connect():
 
 @sio.on("disconnect")
 def disconenct():
-    sio.emit("disconnect")
-    leave_room(lookup_room[request.sid])
-    del lookup_room[request.sid]
+    breakpoint()
+    if request.sid in lookup_room:
+        leave_room(lookup_room[request.sid])
+        del lookup_room[request.sid]
 
 """ triggers this to send a message to the room """
 @sio.on("message")
 def message(msg):
-    sio.emit('message',msg,room=lookup_room[request.sid])
+    if request.sid in lookup_room:
+        sio.emit('message', msg,room=lookup_room[request.sid])
+    else:
+        sio.emit("join room")
 
 
 # gets triggered when the client disconnects
